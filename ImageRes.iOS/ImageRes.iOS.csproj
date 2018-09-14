@@ -145,6 +145,10 @@
     <ImageAsset Include="Assets.xcassets\IconBrain.imageset\ic_brain_black_48dp.png" />
     <ImageAsset Include="Assets.xcassets\IconBrain.imageset\ic_brain_black_48dp%402x.png" />
     <ImageAsset Include="Assets.xcassets\IconBrain.imageset\ic_brain_black_48dp%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ic_brain.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ic_brain.imageset\ic_brain_black_48dp.png" />
+    <ImageAsset Include="Assets.xcassets\ic_brain.imageset\ic_brain_black_48dp%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ic_brain.imageset\ic_brain_black_48dp%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -157,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\IconBrain.imageset\" />
+    <Folder Include="Assets.xcassets\ic_brain.imageset\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\ImageRes\ImageRes.projitems" Label="Shared" />
