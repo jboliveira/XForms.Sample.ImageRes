@@ -1,71 +1,47 @@
-﻿# Xamarin.Tip - Custom CheckBox in Xamarin.Forms
+﻿# Xamarin.Tip - Load Images on Xamarin.Forms Shared Project
 
+#### [Problem]: Xamarin.Forms iOS images not showing
+I have a Xamarin.Forms shared project. On Android all images work fine. I wanted to add them to my iOS project, but they don't show. I've added them to Assets.xcassets:
 
-#### Overview
-Based on [Xamarin.Tip] – Build Your Own CheckBox in Xamarin.Forms article by [Alex Dunn] in order to solve a StackOverflow question.
-
-
-#### [Problem]: Increase Checkbox Size on Xamarin Android 
-> I've implemented checkboxes in my Xamarin Forms App using the following article: [Xamarin.Tip].
-> The only issue I have is that I can't set the size of Android, there is a question in the comments section, however there is no solution. 
-> No matter what I do the SizeRequest is always 64x64 - can anyone offer any suggestions or reason why I can't resize?
-> **Asked by [markpirvine] via StackOverflow**
-
-
-#### Solution - Version 1
-Using the idea provided by [Alex Dunn] on his article [Xamarin.Tip], I did a few changes in order to resize the Checkbox on Android.
-
-Main steps:
-- Add a `BindableProperty` called `SizeRequest` in the custom CheckBox control.
-- Create a method `GetDefaultCheckBoxDrawable` to get the default CheckBox drawable.
-- Change `OnElementChanged` method to clear and resize the text, set the width/height based on SizeRequest, reset the button drawable and set a new Background drawable with the default checkbox drawable.
-
-`AndroidCheckboxRenderer.cs`:
-```csharp
-private Drawable GetDefaultCheckBoxDrawable(Android.Views.View view)
+```
 {
-    TypedValue value = new TypedValue();
-    view.Context.Theme.ResolveAttribute(Android.Resource.Attribute.ListChoiceIndicatorMultiple, value, true);
-    var origImg = view.Context.Resources.GetDrawable(value.ResourceId);
-    var porterDuffColor = new Android.Graphics.PorterDuffColorFilter(Element.CheckColor.ToAndroid(), Android.Graphics.PorterDuff.Mode.SrcIn);
-    origImg.SetColorFilter(porterDuffColor);
-    return origImg;
-}
-
-protected override void OnElementChanged(ElementChangedEventArgs<CustomCheckbox> e)
-{
-    ...
-    
-    // CheckBox displays its height from the TEXT, as well as images.
-    checkBox.Text = "";
-    checkBox.SetTextSize(Android.Util.ComplexUnitType.Sp, 0);
-
-    // Set the width and height based on SizeRequest
-    if (Element.SizeRequest >= 0)
-    {
-        checkBox.SetWidth((int)Element.SizeRequest);
-        checkBox.SetHeight((int)Element.SizeRequest);
-    }
-
-    // Reset the Button Drawable
-    checkBox.SetButtonDrawable(null);
-    // Set Background Drawable with the default CheckBox
-    checkBox.SetBackgroundDrawable(GetDefaultCheckBoxDrawable(this));
-    
-    ...
+  "filename": "logo_launcher.png",
+  "scale": "1x",
+  "idiom": "universal"
 }
 ```
 
+And I use the following XAML:
 
-#### Useful Links:
-- [Link 1]: Android: How to change the size of CheckBox?
-- [Link 2]: What does PorterDuff.Mode mean in android graphics.What does it do?
+```
+<Image Source="logo_launcher.png" x:Name="logo" />
+```
+
+I've added all images except for the vector ones. I'm testing it on a iPhone 8 - 11.4 simulator.
+
+Although it is deprecated, I tried to add the images to the "Resource" folder. But I couldn't even select the .png files. So that didn't work either.
+
+I'm lost at what to do. Is there some option I need to enable, or something to include in the XAML to make it work?
+
+**Asked by TruffelNL**
+
+#### Solution
+
+1. Main.xaml
+```
+        <Image x:Name="iconBrain">
+            <Image.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS><FileImageSource File="IconBrain"/></OnPlatform.iOS>
+                    <OnPlatform.Android><FileImageSource File="ic_brain"/></OnPlatform.Android>
+                </OnPlatform>
+            </Image.Source>
+        </Image>
+```
+
+2. Android: Add the images on the respective Drawable folders under Resourses directory.
+3. iOS: Create a new Image Set under Assets.xcassets and add the Images.
 
 
 [//]: #
-   [Xamarin.Tip]: <https://alexdunn.org/2018/04/10/xamarin-tip-build-your-own-checkbox-in-xamarin-forms/>
-   [Alex Dunn]: <https://github.com/SuavePirate>
-   [Problem]: <https://stackoverflow.com/q/52256660/10341660>
-   [markpirvine]: <https://stackoverflow.com/users/219689/markpirvine>
-   [Link 1]: <http://qaru.site/questions/79052/android-how-to-change-checkbox-size>
-   [Link 2]: <https://stackoverflow.com/a/25654603/10341660>
+   [Problem]: <https://stackoverflow.com/q/52301067/10341660>
