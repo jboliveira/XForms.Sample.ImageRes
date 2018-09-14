@@ -7,10 +7,13 @@
     Title="ImageRes"
     BackgroundColor="#eaeaea">
     
-    <StackLayout HorizontalOptions="CenterAndExpand" 
-                VerticalOptions="CenterAndExpand">
+    <StackLayout Orientation="Vertical"
+                 Spacing="16"
+                 HorizontalOptions="CenterAndExpand" 
+                 VerticalOptions="CenterAndExpand">
         
-        <Image x:Name="iconBrain">
+        <!-- using difference source file names -->
+        <Image>
             <Image.Source>
                 <OnPlatform x:TypeArguments="ImageSource">
                     <OnPlatform.iOS><FileImageSource File="IconBrain"/></OnPlatform.iOS>
@@ -18,6 +21,9 @@
                 </OnPlatform>
             </Image.Source>
         </Image>
+        
+        <!-- using the same file name -->
+        <Image Source="ic_brain" />
         
     </StackLayout>
     
